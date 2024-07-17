@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BroadcastMessage {
-    public static List<ClientHandler> clients = new ArrayList<>();
+    protected static List<ClientHandler> clients = new ArrayList<>();
 
     public static synchronized void broadcastMessage(String message, ClientHandler sender) {
         for (ClientHandler client : clients) {

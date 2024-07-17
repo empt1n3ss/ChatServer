@@ -13,7 +13,6 @@ import static org.example.RemoveClient.removeClient;
 public class ClientHandler extends Thread {
     private Socket clientSocket;
     private PrintWriter out;
-    private BufferedReader in;
     private String clientName;
 
     public ClientHandler(Socket socket) {
@@ -25,9 +24,11 @@ public class ClientHandler extends Thread {
     }
 
     public void run() {
-        try {
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        try (
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+        ) {
+            this.out = out;
 
             clientName = in.readLine();
             out.println("Добро пожаловать, " + clientName + "!");
